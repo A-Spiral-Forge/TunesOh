@@ -1,0 +1,29 @@
+.sidenav-menu {
+    width: 80%;
+    margin: 0 auto;
+}
+
+.sidenav-item {
+    color: var(--white-color) !important;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    width: 100%;
+    padding: 0.5rem 1.5rem;
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.sidenav-item:hover, .sidenav-item.active {
+    background-color: var(--primary-color);
+    color: var(--white-color);
+    transition: all 0.5s !important;
+}
+
+.sidenav-item img {
+    height: 1rem;
+    width: 1rem;
+}

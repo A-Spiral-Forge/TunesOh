@@ -1,0 +1,72 @@
+.topnav {
+    height: 80px;
+    width: 100%;
+    background-color: var(--primary-color);
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 1rem;
+    z-index: 1;
+    border-bottom: 2px solid var(--secondary-color);
+}
+
+.sidenavButton {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--white-color);
+    color: var(--white-color);
+    cursor: pointer;
+    margin-left: 5rem;
+    height: 2.75rem;
+    width: 2.75rem;
+    border-radius: 5px;
+}
+
+.btn-primary, .btn-primary:focus, .btn-primary:active, .btn-primary:visited, .btn-primary.dropdown-toggle:active, .btn-primary:focus-visible {
+    color: var(--white-color);
+    background-color: inherit;
+    border: 1px solid var(--secondary-color);
+    outline: none;
+    box-shadow: none;
+}
+
+.btn-primary:hover, .show > .btn-primary.dropdown-toggle, .show > .btn-primary.dropdown-toggle:focus {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    outline: none;
+    box-shadow: none;
+}
+
+.user-dropdown {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.25rem;
+}
+
+.dropdown-toggle.show::after {
+    transform: rotateX(180deg);
+}
+
+.user-dropdown img {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    cursor: pointer;
+    margin-right: 1rem;
+}
+
+.dropdown-menu {
+    background-color: var(--secondary-color);
+    border: 1px solid var(--secondary-color);
+    border-radius: 5px;
+}
+
+.dropdown-menu a {
+    color: var(--white-color);
+    text-decoration: none;
+}
+
+.dropdown-menu a:hover {
+    color: var(--white-color);
+    background-color: var(--primary-color);
+}

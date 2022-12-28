@@ -1,38 +1,68 @@
+:root {
+  --primary-color: #222831;
+  --secondary-color: #393E46;
+  --white-color: #EEEEEE;
+  --primary-font-family: 'Poppins', sans-serif;
+  --sidebar-width: 240px;
+  --item-card-square-width: 150px;
+  --item-card-strip-height: 80px;
+}
+
 .App {
-  text-align: center;
+  background-color: var(--primary-color);
+  color: var(--white-color);
+  font-family: var(--primary-font-family) !important;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  user-select: none;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.start {
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
-.App-link {
-  color: #61dafb;
+.start a {
+  color: var(--white-color);
+  text-decoration: none;
+  font-size: 1.5rem;
+  border: 1px solid var(--secondary-color);
+  display: flex;
+  padding: 1rem;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.start a:hover {
+  background-color: var(--secondary-color);
+  color: var(--white-color);
+}
+
+.spotify {
+  color: #1DB954;
+}
+
+.spotifyIcon {
+  height: 30px;
+  margin-left: 0.5rem;
+}
+
+.SidebarMenu {
+  z-index: 10;
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  width: calc(100% - var(--sidebar-width));
+  height: 100%;
+}
+
+.main__content {
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
 }

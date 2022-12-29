@@ -36,7 +36,7 @@
     border-radius: 0.5rem;
 }
 
-.item-card-square__image::after {
+.item-card-strip__image::after {
 	content: "";
 	display: block;
 	padding-bottom: 100%;
@@ -49,6 +49,61 @@
 	border-radius: 0.5rem;
 	position: absolute;
     object-position: 50% 50%;
+}
+
+.item-card-strip__favorite {
+	position: absolute;
+	bottom: 0.5rem;
+	right: 0.5rem;
+	z-index: 100;
+	background-color: inherit;
+	border-radius: 5px;
+}
+
+.item-card-strip__favorite:focus,
+.item-card-strip__favorite:active,
+.item-card-strip__favorite:hover,
+.item-card-strip__favorite:visited,
+.item-card-strip__favorite:focus-visible {
+	outline: none;
+	border: none;
+	background-color: inherit;
+	box-shadow: none;
+}
+
+.item-card-strip__favorite button {
+	width: 1.5rem;
+	height: 1.5rem;
+	position: relative;
+	background-color: inherit;
+	border: none;
+	cursor: pointer;
+	outline: none;
+	box-shadow: none;
+}
+
+.item-card-strip__favorite button:focus,
+.item-card-strip__favorite button:active,
+.item-card-strip__favorite button:active:focus,
+.item-card-strip__favorite button:hover,
+.item-card-strip__favorite button:visited,
+.item-card-strip__favorite button:focus-visible {
+	outline: none;
+	border: none;
+	background: inherit;
+	box-shadow: none;
+}
+
+.item-card-strip__favorite button img {
+	width: 1.5rem;
+	height: 1.5rem;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.item-card-strip__favorite.active button img {
+	content: url('../../../public/svg-icons/FavoritesIconFilled.svg');
 }
 
 .item-card-strip__text {

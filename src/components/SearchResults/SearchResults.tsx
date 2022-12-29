@@ -8,8 +8,20 @@ import ItemsList from '../ItemsList/ItemsList';
 
 // Import utility functions
 import { formatTitleToCamelCase } from '../../utils/format-data';
+import { Album, Playlist, Artist, Favorite } from '../../utils/types';
 
-export default class SearchResults extends Component<any> {
+// Define props and state types
+interface IProps {
+    handleFavorites: (favorite: Favorite, removeFavorite: boolean) => void;
+    searchResults: {
+        albums: Album[];
+        artists: Artist[];
+        playlists: Playlist[];
+    };
+    favorites: Favorite[];
+}
+
+export default class SearchResults extends Component<IProps> {
     render() {
         return (
             <div className='search-results'>
@@ -18,16 +30,22 @@ export default class SearchResults extends Component<any> {
                     title={formatTitleToCamelCase('albums')}
                     items={this.props.searchResults.albums}
                     renderComponent='strip'
+                    handleFavorite={this.props.handleFavorites}
+                    favorites={this.props.favorites}
                 />
                 <ItemsList
                     title={formatTitleToCamelCase('artists')}
                     items={this.props.searchResults.artists}
                     renderComponent='strip'
+                    handleFavorite={this.props.handleFavorites}
+                    favorites={this.props.favorites}
                 />
                 <ItemsList
                     title={formatTitleToCamelCase('playlists')}
                     items={this.props.searchResults.playlists}
                     renderComponent='strip'
+                    handleFavorite={this.props.handleFavorites}
+                    favorites={this.props.favorites}
                 />
             </div>
         );

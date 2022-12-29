@@ -15,8 +15,16 @@ import {
 import { Album, Playlist, Category } from '../../utils/types';
 import { formatTitleToCamelCase } from '../../utils/format-data';
 
+// Inport utils
+import { Favorite } from '../../utils/types';
+
 // Define props and state types
-interface State {
+interface IProps {
+	handleFavorite: (favorite: Favorite, removeFavorite: boolean) => void;
+	favorites: Favorite[];
+}
+
+interface IState {
 	error: any;
 	isLoaded: boolean;
 	token: string;
@@ -26,7 +34,7 @@ interface State {
 	categories: Category[];
 }
 
-export default class Home extends Component<any, State> {
+export default class Home extends Component<IProps, IState> {
 	tempSongs = {};
 
 	constructor(props: any) {
@@ -46,13 +54,14 @@ export default class Home extends Component<any, State> {
 		const token = localStorage.getItem('token');
 
 		if (token) {
-			console.log(this.state);
-
 			const newReleases: Album[] = this.state.new_releases.length === 0 ? await getNewReleases(token) : this.state.new_releases;
+
 			const featuredPlaylists: Playlist[] = this.state.featured_playlists.length === 0 ? await getFeaturedPlaylists(
 				token
 			) : this.state.featured_playlists;
+
 			const categories: Category[] = this.state.categories.length === 0 ? await getCategories(token) : this.state.categories;
+			
 			this.setState({
 				...this.state,
 				isLoaded: true,
@@ -75,16 +84,22 @@ export default class Home extends Component<any, State> {
 						title={formatTitleToCamelCase(this.state.titles[0])}
 						items={this.state.new_releases}
 						renderComponent='square'
+						handleFavorite={this.props.handleFavorite}
+						favorites={this.props.favorites}
 					/>
 					<ItemsList
 						title={formatTitleToCamelCase(this.state.titles[1])}
 						items={this.state.featured_playlists}
 						renderComponent='square'
+						handleFavorite={this.props.handleFavorite}
+						favorites={this.props.favorites}
 					/>
 					<ItemsList
 						title={formatTitleToCamelCase(this.state.titles[2])}
 						items={this.state.categories}
 						renderComponent='square'
+						handleFavorite={this.props.handleFavorite}
+						favorites={this.props.favorites}
 					/>
 				</div>
 			);

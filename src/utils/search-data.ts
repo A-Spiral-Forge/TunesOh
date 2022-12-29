@@ -70,7 +70,5 @@ export const getSearchResults = async (token: string|null, query: string) => {
         }),
     };
 
-    console.log(searchData);
-
     return searchData;
 }

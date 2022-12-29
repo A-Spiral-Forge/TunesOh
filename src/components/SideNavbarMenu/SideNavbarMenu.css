@@ -15,6 +15,7 @@
     gap: 1rem;
     cursor: pointer;
     user-select: none;
+    white-space: nowrap;
 }
 
 .sidenav-item:hover, .sidenav-item.active {

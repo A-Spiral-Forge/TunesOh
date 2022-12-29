@@ -8,13 +8,15 @@ import ItemCardSquare from "../ItemCardSquare/ItemCardSquare";
 import ItemCardStrip from "../ItemCardStrip/ItemCardStrip";
 
 // Import utility functions
-import { Album, Playlist, Category } from "../../utils/types";
+import { Album, Playlist, Category, Favorite } from "../../utils/types";
 
 // Define types
 interface IProps {
     title: string;
-    items: Album[] | Playlist[] | Category[];
+    items: Album[] | Playlist[] | Category[] | Favorite[];
     renderComponent?: 'square' | 'strip';
+    handleFavorite: (favorite: Favorite, removeFavorite: boolean) => void;
+    favorites: Favorite[];
 }
 
 export default class ItemsList extends Component<IProps> {
@@ -27,7 +29,7 @@ export default class ItemsList extends Component<IProps> {
                     {this.props.title}
                 </p>
                 <div className="items-list__items" style={renderComponent === 'square' ? {flexDirection: 'row'} : {flexDirection: 'column'}}>
-                    {this.props.items.map((props:Album | Playlist | Category, index:number) => {
+                    {this.props.items.map((props:Album | Playlist | Category | Favorite, index:number) => {
                         return (
                             renderComponent === 'square' ? <ItemCardSquare
                                 key={index}
@@ -36,6 +38,8 @@ export default class ItemsList extends Component<IProps> {
                                 url={props.spotify_url}
                                 image_url={props.images[0]?.url}
                                 type={props.type}
+                                isFavorite={this.props.favorites.some((favorite:Favorite) => favorite.id === props.id)}
+                                handleFavorite={this.props.handleFavorite}
                             /> : <ItemCardStrip
                                 key={index}
                                 id={props.id}
@@ -43,6 +47,8 @@ export default class ItemsList extends Component<IProps> {
                                 url={props.spotify_url}
                                 image_url={props.images[0]?.url}
                                 type={props.type}
+                                isFavorite={this.props.favorites.some((favorite:Favorite) => favorite.id === props.id)}
+                                handleFavorite={this.props.handleFavorite}
                             />
                         );
                     })}

@@ -9,55 +9,65 @@ import SearchResults from '../SearchResults/SearchResults';
 
 // Import utils
 import { getSearchResults } from '../../utils/search-data';
-import { Album, Playlist, Artist } from '../../utils/types';
+import { Album, Playlist, Artist, Favorite } from '../../utils/types';
 
 // Define props and state types
+interface IProps {
+	handleFavorite: (favorite: Favorite, removeFavorite: boolean) => void;
+	favorites: Favorite[];
+}
+
 interface IState {
-    searchResults: {
-        albums: Album[];
-        artists: Artist[];
-        playlists: Playlist[];
-    };
+	searchResults: {
+		albums: Album[];
+		artists: Artist[];
+		playlists: Playlist[];
+	};
 }
 
 interface ISearchResults {
-    albums: Album[];
-    artists: Artist[];
-    playlists: Playlist[];
+	albums: Album[];
+	artists: Artist[];
+	playlists: Playlist[];
 }
 
-export default class Search extends Component<any, IState> {
-    state = {
-        searchResults: {
-            albums: [],
-            artists: [],
-            playlists: [],
-        },
-    };
+export default class Search extends Component<IProps, IState> {
+	state = {
+		searchResults: {
+			albums: [],
+			artists: [],
+			playlists: [],
+		},
+	};
 
-    handleSearchInput = (searchInput: string) => {
-        const token = localStorage.getItem('token');
+	handleSearchInput = (searchInput: string) => {
+		const token = localStorage.getItem('token');
 
-        getSearchResults(token, searchInput).then((searchResults: ISearchResults | undefined) => {
+		getSearchResults(token, searchInput).then(
+			(searchResults: ISearchResults | undefined) => {
+				if (searchResults === undefined) return;
 
-            if(searchResults === undefined) return;
+				this.setState({
+					searchResults: {
+						albums: searchResults.albums,
+						artists: searchResults.artists,
+						playlists: searchResults.playlists,
+					},
+				});
+			}
+		);
+	};
 
-            this.setState({
-                searchResults: {
-                    albums: searchResults.albums,
-                    artists: searchResults.artists,
-                    playlists: searchResults.playlists,
-                },
-            });
-        });
-    };
-
-    render() {
-        return (
-            <div className='search'>
-                <SearchBar handleSearchInput={this.handleSearchInput}/>
-                <SearchResults searchResults={this.state.searchResults}/>
-            </div>
-        );
-    }
+	render() {
+		return (
+			<div className='search'>
+				<SearchBar handleSearchInput={this.handleSearchInput} />
+				<SearchResults
+					searchResults={this.state.searchResults}
+					handleFavorites={this.props.handleFavorite}
+					favorites={this.props.favorites}
+				/>
+			</div>
+		);
+	}
 }

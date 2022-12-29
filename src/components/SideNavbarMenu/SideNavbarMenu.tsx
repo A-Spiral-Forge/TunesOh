@@ -4,21 +4,61 @@ import { Nav } from 'react-bootstrap';
 // CSS files import
 import './SideNavbarMenu.css'; // SidebarMenu CSS
 
-// Define state
-interface IState {
-	active: string;
+// Import components
+import CreatePlaylistModal from '../CreatePlaylistModal/CreatePlaylistModal';
+
+// Import utility functions
+import { UserPlaylist } from '../../utils/types';
+
+// Define props and state
+interface IProps {
+	handlePageChange: (page: string) => void;
+	handlePlaylist: (playlist: UserPlaylist) => void;
 }
 
-export default class SidebarMenu extends Component<any, IState> {
-	state:IState = {
+interface IState {
+	active: string;
+	modalOpen: boolean;
+}
+
+export default class SidebarMenu extends Component<IProps, IState> {
+	state: IState = {
 		active: 'home',
+		modalOpen: false,
+	};
+
+	handleModalOpen = () => {
+		this.setState({ modalOpen: true });
+	};
+
+	handleModalClose = (
+		create: boolean | undefined,
+		playlistName: string | undefined
+	) => {
+		if (create && playlistName) {
+			this.props.handlePlaylist({
+				id: new Date().getTime().toString(),
+				name: playlistName,
+				tracks: [],
+			});
+		}
+
+		this.setState({ modalOpen: false });
 	};
 
 	render() {
 		return (
 			<Nav className='sidenav-menu flex-column'>
+				<CreatePlaylistModal
+					handleModalClose={this.handleModalClose}
+					modalOpen={this.state.modalOpen}
+				/>
 				<Nav.Item
-					className={this.state.active === 'home' ? 'sidenav-item active' : 'sidenav-item'}
+					className={
+						this.state.active === 'home'
+							? 'sidenav-item active'
+							: 'sidenav-item'
+					}
 					onClick={() => {
 						this.setState({ active: 'home' });
 						this.props.handlePageChange('home');
@@ -31,7 +71,11 @@ export default class SidebarMenu extends Component<any, IState> {
 					Home
 				</Nav.Item>
 				<Nav.Item
-					className={this.state.active === 'search' ? 'sidenav-item active' : 'sidenav-item'}
+					className={
+						this.state.active === 'search'
+							? 'sidenav-item active'
+							: 'sidenav-item'
+					}
 					onClick={() => {
 						this.setState({ active: 'search' });
 						this.props.handlePageChange('search');
@@ -46,7 +90,11 @@ export default class SidebarMenu extends Component<any, IState> {
 					Search
 				</Nav.Item>
 				<Nav.Item
-					className={this.state.active === 'favorites' ? 'sidenav-item active' : 'sidenav-item'}
+					className={
+						this.state.active === 'favorites'
+							? 'sidenav-item active'
+							: 'sidenav-item'
+					}
 					onClick={() => {
 						this.setState({ active: 'favorites' });
 						this.props.handlePageChange('favorites');
@@ -62,11 +110,12 @@ export default class SidebarMenu extends Component<any, IState> {
 					Favorites
 				</Nav.Item>
 				<Nav.Item
-					className={this.state.active === 'playlists' ? 'sidenav-item active' : 'sidenav-item'}
-					onClick={() => {
-						this.setState({ active: 'playlists' });
-						this.props.handlePageChange('playlists');
-					}}
+					className={
+						this.state.active === 'playlists'
+							? 'sidenav-item active'
+							: 'sidenav-item'
+					}
+					onClick={this.handleModalOpen}
 				>
 					<img
 						src={
@@ -75,7 +124,7 @@ export default class SidebarMenu extends Component<any, IState> {
 						}
 						alt=''
 					/>
-					Playlists
+					Create Playlists
 				</Nav.Item>
 			</Nav>
 		);

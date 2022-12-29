@@ -40,15 +40,6 @@ export interface Artist {
     spotify_url: string;
 }
 
-export interface Song {
-    id: string;
-    name: string;
-    artists: string[];
-    album: string;
-    duration: number;
-    uri: string;
-}
-
 export interface User {
     id: string;
     name: string;
@@ -60,12 +51,6 @@ export interface User {
 export interface Tracks {
     href: string;
     total: number;
-}
-
-export interface Search {
-    albums: Album[];
-    songs: Song[];
-    playlists: Playlist[];
 }
 
 export interface Images {
@@ -82,4 +67,28 @@ export interface Category {
     uri: string;
     spotify_url: string;
     type: string;
+}
+
+export interface Favorite {
+	id: string;
+	name: string;
+	type: string;
+    active?: boolean;
+    spotify_url: string;
+    images: Images[];
+}
+
+export interface Track {
+    id: string;
+    name: string;
+    artists: Artist[];
+    album: string;
+    duration: number;
+    uri: string;
+}
+
+export interface UserPlaylist {
+    id: string;
+    name: string;
+    tracks: Track[];
 }

@@ -8,7 +8,17 @@ import PlaylistMenu from "../PlaylistMenu/PlaylistMenu";
 // Import CSS files
 import './SidebarMenu.css'; // SidebarMenu CSS
 
-export default class SidebarMenu extends Component<any> {
+// Import utility functions
+import { UserPlaylist } from "../../utils/types";
+
+// Define type of props
+interface IProps {
+    handlePageChange: (page: string) => void;
+    playlists: UserPlaylist[];
+    handlePlaylist: (playlist: UserPlaylist) => void;
+}
+
+export default class SidebarMenu extends Component<IProps> {
     render() {
         return (
             <Navbar
@@ -25,9 +35,9 @@ export default class SidebarMenu extends Component<any> {
                         alt='TunesOh'
                     />
                 </div>
-                <SideNavbarMenu handlePageChange={this.props.handlePageChange}/>
+                <SideNavbarMenu handlePageChange={this.props.handlePageChange} handlePlaylist={this.props.handlePlaylist} />
                 <hr className="sidenavDivider"/>
-                <PlaylistMenu />
+                <PlaylistMenu playlists={this.props.playlists} />
                 <div className="copyright">
                     <p>All design and code copyright reserved</p>
                     <p>&copy; By Abhay Parihar, 2022</p>

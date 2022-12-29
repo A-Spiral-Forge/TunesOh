@@ -1,19 +1,26 @@
-import React, {Component} from "react";
+import React, { Component } from 'react';
 
 // Import css files
 import './PlaylistMenu.css'; // PlaylistMenu CSS
 
-export default class PlaylistMenu extends Component {
-    render() {
-        return (
-            <ul className="playlistMenu">
-                <li>Playlist #1</li>
-                <li>Playlist #2</li>
-                <li>Playlist #3</li>
-                <li>Playlist #4</li>
-                <li>Playlist #5</li>
-                <li>Playlist #6</li>
-            </ul>
-        );
-    }
+// Import utility functions
+import { UserPlaylist } from '../../utils/types';
+
+// Define type of props
+interface IProps {
+	playlists: UserPlaylist[];
+}
+
+export default class PlaylistMenu extends Component<IProps> {
+	render() {
+		return (
+			<ul className='playlistMenu'>
+				{this.props.playlists.map((playlist, index) => (
+					<li key={index} className='playlistMenu-item'>
+						{playlist.name}
+					</li>
+				))}
+			</ul>
+		);
+	}
 }

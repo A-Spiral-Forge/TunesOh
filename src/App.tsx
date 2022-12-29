@@ -7,11 +7,17 @@ import SidebarMenu from './components/SidebarMenu/SidebarMenu';
 import TopNavbar from './components/TopNavbar/TopNavbar';
 import Home from './components/Home/Home';
 import Search from './components/Search/Search';
+import Favorites from './components/Favorites/Favorites';
+
+// Import utility functions
+import { Favorite, UserPlaylist } from './utils/types';
 
 // Define type of state
 interface IState {
 	token: string | undefined;
 	page: string;
+	favorites: Favorite[];
+	playlists: UserPlaylist[];
 }
 
 // Spotify API
@@ -35,32 +41,49 @@ const hash = window.location.hash
 window.location.hash = '';
 
 export default class App extends Component<any, IState> {
-	state: IState = {
-		token: undefined,
-		page: 'home',
-	};
-
 	constructor(props: any) {
 		super(props);
+
 		this.state = {
 			token: undefined,
 			page: 'home',
+			favorites: [],
+			playlists: [],
 		};
 
 		const localToken = localStorage.getItem('token');
 		if (localToken) {
 			this.state = {
+				...this.state,
 				token: localToken,
-				page: 'home',
+			};
+		}
+
+		const favorites = localStorage.getItem('favorites');
+
+		if (favorites) {
+			this.state = {
+				...this.state,
+				favorites: JSON.parse(favorites),
+			};
+		}
+
+		const playlists = localStorage.getItem('playlists');
+
+		if (playlists) {
+			this.state = {
+				...this.state,
+				playlists: JSON.parse(playlists),
 			};
 		}
 	}
 
 	componentDidMount() {
 		let _token = hash.access_token;
-		console.log(_token);
+
 		if (_token) {
 			this.setState({
+				...this.state,
 				token: _token,
 			});
 			localStorage.setItem('token', _token);
@@ -73,6 +96,26 @@ export default class App extends Component<any, IState> {
 			page: page,
 		});
 	};
+
+	handleFavorite = (favorite: Favorite, removeFavorite: boolean = false) => {
+		const favorites = removeFavorite ? this.state.favorites.filter((fav) => fav.id !== favorite.id) : [...this.state.favorites, favorite];
+		this.setState({
+			...this.state,
+			favorites: favorites,
+		});
+
+		localStorage.setItem('favorites', JSON.stringify(favorites));
+	}
+
+	handlePlaylist = (playlist: UserPlaylist, removePlaylist: boolean = false) => {
+		const playlists = removePlaylist ? this.state.playlists.filter((ply) => ply.id !== playlist.id) : [...this.state.playlists, playlist];
+		this.setState({
+			...this.state,
+			playlists: playlists,
+		});
+
+		localStorage.setItem('playlists', JSON.stringify(playlists));
+	}
 
 	render() {
 		return (
@@ -93,15 +136,14 @@ export default class App extends Component<any, IState> {
 				{this.state.token && (
 					<Router>
 						<div className='SidebarMenu'>
-							<SidebarMenu handlePageChange={this.handlePageChange} />
+							<SidebarMenu handlePageChange={this.handlePageChange} playlists={this.state.playlists} handlePlaylist={this.handlePlaylist} />
 						</div>
 						<div className='main'>
 							<TopNavbar />
 							<div className='main__content'>
-								{this.state.page === 'home' && <Home />}
-								{this.state.page === 'search' && <Search />}
-								{this.state.page === 'favorites' && <div>Favorites</div>}
-								{this.state.page === 'playlists' && <div>Playlists</div>}
+								{this.state.page === 'home' && <Home handleFavorite={this.handleFavorite} favorites={this.state.favorites} />}
+								{this.state.page === 'search' && <Search handleFavorite={this.handleFavorite} favorites={this.state.favorites} />}
+								{this.state.page === 'favorites' && <Favorites favorites={this.state.favorites} handleFavorite={this.handleFavorite} />}
 							</div>
 						</div>
 					</Router>

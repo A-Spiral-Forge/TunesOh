@@ -3,14 +3,15 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import './App.css';
 
 // Import components
-import SidebarMenu from './components/SidebarMenu/SidebarMenu';
-import TopNavbar from './components/TopNavbar/TopNavbar';
-import Home from './components/Home/Home';
-import Search from './components/Search/Search';
-import Favorites from './components/Favorites/Favorites';
+import SidebarMenu from './Components/SidebarMenu/SidebarMenu';
+import TopNavbar from './Components/TopNavbar/TopNavbar';
+import Home from './Components/Home/Home';
+import Search from './Components/Search/Search';
+import Favorites from './Components/Favorites/Favorites';
 
 // Import utility functions
-import { Favorite, UserPlaylist } from './utils/types';
+import { Favorite } from './@types/tracks';
+import { UserPlaylist } from './@types/user';
 
 // Define type of state
 interface IState {

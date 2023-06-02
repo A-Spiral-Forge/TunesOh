@@ -1,0 +1,110 @@
+import React, { Component } from 'react';
+
+// Import CSS files
+import './Home.css';
+
+// Import components
+import ItemsList from '../ItemsList/ItemsList';
+
+// Import utility functions
+import {
+	getNewReleases,
+	getFeaturedPlaylists,
+	getCategories,
+} from '../../Utils/home-data';
+import { Album } from '../../@types/albums';
+import { Playlist } from '../../@types/playlists';
+import { Category } from '../../@types/categories'; 
+import { formatTitleToCamelCase } from '../../Utils/format-data';
+
+// Inport utils
+import { Favorite } from '../../@types/tracks';
+
+// Define props and state types
+interface IProps {
+	handleFavorite: (favorite: Favorite, removeFavorite: boolean) => void;
+	favorites: Favorite[];
+}
+
+interface IState {
+	error: any;
+	isLoaded: boolean;
+	token: string;
+	titles: string[];
+	new_releases: Album[];
+	featured_playlists: Playlist[];
+	categories: Category[];
+}
+
+export default class Home extends Component<IProps, IState> {
+	tempSongs = {};
+
+	constructor(props: any) {
+		super(props);
+		this.state = {
+			error: null,
+			isLoaded: false,
+			token: localStorage.getItem('token') || '',
+			titles: ['new-releases', 'featured-playlists', 'categories'],
+			new_releases: [],
+			featured_playlists: [],
+			categories: [],
+		};
+	}
+
+	async componentDidMount() {
+		const token = localStorage.getItem('token');
+
+		if (token) {
+			const newReleases: Album[] = this.state.new_releases.length === 0 ? await getNewReleases(token) : this.state.new_releases;
+
+			const featuredPlaylists: Playlist[] = this.state.featured_playlists.length === 0 ? await getFeaturedPlaylists(
+				token
+			) : this.state.featured_playlists;
+
+			const categories: Category[] = this.state.categories.length === 0 ? await getCategories(token) : this.state.categories;
+			
+			this.setState({
+				...this.state,
+				isLoaded: true,
+				new_releases: newReleases,
+				featured_playlists: featuredPlaylists,
+				categories: categories,
+			});
+		}
+	}
+
+	render() {
+		if (this.state.error) {
+			return <div>Error: {this.state.error.message}</div>;
+		} else if (!this.state.isLoaded) {
+			return <div>Loading...</div>;
+		} else {
+			return (
+				<div className='home'>
+					<ItemsList
+						title={formatTitleToCamelCase(this.state.titles[0])}
+						items={this.state.new_releases}
+						renderComponent='square'
+						handleFavorite={this.props.handleFavorite}
+						favorites={this.props.favorites}
+					/>
+					<ItemsList
+						title={formatTitleToCamelCase(this.state.titles[1])}
+						items={this.state.featured_playlists}
+						renderComponent='square'
+						handleFavorite={this.props.handleFavorite}
+						favorites={this.props.favorites}
+					/>
+					<ItemsList
+						title={formatTitleToCamelCase(this.state.titles[2])}
+						items={this.state.categories}
+						renderComponent='square'
+						handleFavorite={this.props.handleFavorite}
+						favorites={this.props.favorites}
+					/>
+				</div>
+			);
+		}
+	}
+}

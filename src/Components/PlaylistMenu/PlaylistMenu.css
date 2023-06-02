@@ -1,0 +1,22 @@
+::-webkit-scrollbar {
+    width: 0.1rem;
+}
+
+.playlistMenu {
+    overflow: auto;
+    margin: 0rem;
+    margin-bottom: 2rem;
+    width: 90%;
+    list-style-type: none;
+}
+
+.playlistMenu li {
+    margin: 0.5rem 0;
+    padding: 0.5rem 0;
+    cursor: default;
+    opacity: 0.6;
+}
+
+.playlistMenu li:hover {
+    opacity: 1;
+}

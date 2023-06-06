@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import { Nav } from 'react-bootstrap';
 
 // CSS files import
@@ -9,6 +9,7 @@ import CreatePlaylistModal from '../CreatePlaylistModal/CreatePlaylistModal';
 
 // Import utility functions
 import { UserPlaylist } from '../../@types/user';
+import { usePageHandler } from '../../Context/PageHandlerContext';
 
 // Define props and state
 interface IProps {
@@ -16,117 +17,59 @@ interface IProps {
 	handlePlaylist: (playlist: UserPlaylist) => void;
 }
 
-interface IState {
-	active: string;
-	modalOpen: boolean;
-}
+export default function SideNavbarMenu(props: IProps) {
+	const {page, setPage} = usePageHandler();
+	const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-export default class SideNavbarMenu extends Component<IProps, IState> {
-	state: IState = {
-		active: 'home',
-		modalOpen: false,
+	const handleModalOpen = () => {
+		setModalOpen(true);
 	};
 
-	handleModalOpen = () => {
-		this.setState({ modalOpen: true });
-	};
-
-	handleModalClose = (
+	const handleModalClose = (
 		create: boolean | undefined,
 		playlistName: string | undefined
 	) => {
 		if (create && playlistName) {
-			this.props.handlePlaylist({
-				id: new Date().getTime().toString(),
-				name: playlistName,
-				tracks: [],
-			});
+			// this.props.handlePlaylist({
+			// 	id: new Date().getTime().toString(),
+			// 	name: playlistName,
+			// 	tracks: [],
+			// });
 		}
 
-		this.setState({ modalOpen: false });
+		setModalOpen(false);
 	};
 
-	render() {
-		return (
+	return (
+		<>
+			<CreatePlaylistModal
+				handleModalClose={handleModalClose}
+				modalOpen={modalOpen}
+			/>
 			<Nav className='sidenav-menu flex-column'>
-				<CreatePlaylistModal
-					handleModalClose={this.handleModalClose}
-					modalOpen={this.state.modalOpen}
-				/>
-				<Nav.Item
-					className={
-						this.state.active === 'home'
-							? 'sidenav-item active'
-							: 'sidenav-item'
-					}
-					onClick={() => {
-						this.setState({ active: 'home' });
-						this.props.handlePageChange('home');
-					}}
-				>
-					<img
-						src={process.env.PUBLIC_URL + '/svg-icons/HomeIcon.svg'}
-						alt=''
-					/>
-					Home
-				</Nav.Item>
-				<Nav.Item
-					className={
-						this.state.active === 'search'
-							? 'sidenav-item active'
-							: 'sidenav-item'
-					}
-					onClick={() => {
-						this.setState({ active: 'search' });
-						this.props.handlePageChange('search');
-					}}
-				>
-					<img
-						src={
-							process.env.PUBLIC_URL + '/svg-icons/SearchIcon.svg'
-						}
-						alt=''
-					/>
-					Search
-				</Nav.Item>
-				<Nav.Item
-					className={
-						this.state.active === 'favorites'
-							? 'sidenav-item active'
-							: 'sidenav-item'
-					}
-					onClick={() => {
-						this.setState({ active: 'favorites' });
-						this.props.handlePageChange('favorites');
-					}}
-				>
-					<img
-						src={
-							process.env.PUBLIC_URL +
-							'/svg-icons/FavoritesIcon.svg'
-						}
-						alt=''
-					/>
-					Favorites
-				</Nav.Item>
-				<Nav.Item
-					className={
-						this.state.active === 'playlists'
-							? 'sidenav-item active'
-							: 'sidenav-item'
-					}
-					onClick={this.handleModalOpen}
-				>
-					<img
-						src={
-							process.env.PUBLIC_URL +
-							'/svg-icons/PlaylistsIcon.svg'
-						}
-						alt=''
-					/>
-					Create Playlists
-				</Nav.Item>
+				{
+					['Home', 'Search', 'Favorites', 'Playlists'].map((item, index) => (
+						<Nav.Item
+							className={
+								page === item
+									? 'sidenav-item active'
+									: 'sidenav-item'
+							}
+							key={index}
+							onClick={() => {
+								setPage(item);
+								props.handlePageChange(item);
+							}}
+						>
+							<img
+								src={`${process.env.PUBLIC_URL}/svg-icons/${item}Icon.svg`}
+								alt=''
+							/>
+							{item}
+						</Nav.Item>
+					))
+				}
 			</Nav>
-		);
-	}
+		</>
+	);
 }

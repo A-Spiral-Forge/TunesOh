@@ -7,14 +7,20 @@ import './index.css';
 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import { UserDataProvider } from './Context/UserDataContext';
+import { PageHandlerProvider } from './Context/PageHandlerContext';
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+	document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+	// <React.StrictMode>
+	<UserDataProvider>
+		<PageHandlerProvider>
+			<App />
+		</PageHandlerProvider>
+	</UserDataProvider>
+	// </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,155 +1,115 @@
-import React, { Component } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { useUserData } from './Context/UserDataContext';
 import './App.css';
 
 // Import components
+import UnauthorizedPage from './Components/UnauthorizedPage/Unauthorizedpage';
+import AuthorizedPage from './Components/AuthorizedPage/AuthorizedPage';
 import SidebarMenu from './Components/SidebarMenu/SidebarMenu';
 import TopNavbar from './Components/TopNavbar/TopNavbar';
-import Home from './Components/Home/Home';
-import Search from './Components/Search/Search';
-import Favorites from './Components/Favorites/Favorites';
 
 // Import utility functions
 import { Favorite } from './@types/tracks';
 import { UserPlaylist } from './@types/user';
+import { HomeDataProvider } from './Context/HomeDataContext';
 
-// Define type of state
-interface IState {
-	token: string | undefined;
-	page: string;
-	favorites: Favorite[];
-	playlists: UserPlaylist[];
-}
+// Get token from URL
+// const hash = window.location.hash
+// 	.substring(1)
+// 	.split('&')
+// 	.reduce(function (initial: any, item) {
+// 		if (item) {
+// 			var parts = item.split('=');
+// 			initial[parts[0]] = decodeURIComponent(parts[1]);
+// 		}
+// 		return initial;
+// 	}, {});
+// window.location.hash = '';
 
-// Spotify API
-const authEndpoint = 'https://accounts.spotify.com/authorize';
-const clientId =
-	process.env.REACT_APP_SPOTIFY_CLIENT_ID ||
-	'aad899b6de3a4ee8a3f25828e6e52429';
-const redirectUri = 'http://localhost:3000';
-const scopes = ['user-read-currently-playing'];
+export default function App(props: any) {
+	// constructor(props: any) {
+	// 	super(props);
 
-const hash = window.location.hash
-	.substring(1)
-	.split('&')
-	.reduce(function (initial: any, item) {
-		if (item) {
-			var parts = item.split('=');
-			initial[parts[0]] = decodeURIComponent(parts[1]);
-		}
-		return initial;
-	}, {});
-window.location.hash = '';
+	// 	this.state = {
+	// 		token: undefined,
+	// 		page: 'home',
+	// 		favorites: [],
+	// 		playlists: [],
+	// 	};
 
-export default class App extends Component<any, IState> {
-	constructor(props: any) {
-		super(props);
+	// 	const localToken = localStorage.getItem('token');
+	// 	if (localToken) {
+	// 		this.state = {
+	// 			...this.state,
+	// 			token: localToken,
+	// 		};
+	// 	}
 
-		this.state = {
-			token: undefined,
-			page: 'home',
-			favorites: [],
-			playlists: [],
-		};
+	// 	const favorites = localStorage.getItem('favorites');
 
-		const localToken = localStorage.getItem('token');
-		if (localToken) {
-			this.state = {
-				...this.state,
-				token: localToken,
-			};
-		}
+	// 	if (favorites) {
+	// 		this.state = {
+	// 			...this.state,
+	// 			favorites: JSON.parse(favorites),
+	// 		}; 
+	// 	}
 
-		const favorites = localStorage.getItem('favorites');
+	// 	const playlists = localStorage.getItem('playlists');
 
-		if (favorites) {
-			this.state = {
-				...this.state,
-				favorites: JSON.parse(favorites),
-			};
-		}
+	// 	if (playlists) {
+	// 		this.state = {
+	// 			...this.state,
+	// 			playlists: JSON.parse(playlists),
+	// 		};
+	// 	}
+	// }
 
-		const playlists = localStorage.getItem('playlists');
+	// const [token, setToken] = useState<string | undefined>(undefined);
+	const [favorites, setFavorites] = useState<Favorite[]>([]);
+	const [playlists, setPlaylists] = useState<UserPlaylist[]>([]);
+	
+	const { token } = useUserData();
 
-		if (playlists) {
-			this.state = {
-				...this.state,
-				playlists: JSON.parse(playlists),
-			};
-		}
-	}
+	useEffect(() => {
+		console.log('token changed', token);
+	}, [token]);
 
-	componentDidMount() {
-		let _token = hash.access_token;
-
-		if (_token) {
-			this.setState({
-				...this.state,
-				token: _token,
-			});
-			localStorage.setItem('token', _token);
-		}
-	}
-
-	handlePageChange = (page: string) => {
-		this.setState({
-			...this.state,
-			page: page,
-		});
+	const handlePageChange = (page: string) => {
+		// setPage(page);
 	};
 
-	handleFavorite = (favorite: Favorite, removeFavorite: boolean = false) => {
-		const favorites = removeFavorite ? this.state.favorites.filter((fav) => fav.id !== favorite.id) : [...this.state.favorites, favorite];
-		this.setState({
-			...this.state,
-			favorites: favorites,
-		});
+	const handleFavorite = (favorite: Favorite, removeFavorite: boolean = false) => {
+		const newfavorites = removeFavorite ? favorites.filter((fav) => fav.id !== favorite.id) : [...favorites, favorite];
+		setFavorites(newfavorites);
 
 		localStorage.setItem('favorites', JSON.stringify(favorites));
 	}
 
-	handlePlaylist = (playlist: UserPlaylist, removePlaylist: boolean = false) => {
-		const playlists = removePlaylist ? this.state.playlists.filter((ply) => ply.id !== playlist.id) : [...this.state.playlists, playlist];
-		this.setState({
-			...this.state,
-			playlists: playlists,
-		});
+	const handlePlaylist = (playlist: UserPlaylist, removePlaylist: boolean = false) => {
+		const newplaylists = removePlaylist ? playlists.filter((ply) => ply.id !== playlist.id) : [...playlists, playlist];
+		setPlaylists(newplaylists);
 
 		localStorage.setItem('playlists', JSON.stringify(playlists));
 	}
 
-	render() {
-		return (
-			<div className='App'>
-				{!this.state.token && (
-					<div className='start'>
-						<a
-							className='btn btn--loginApp-link'
-							href={`${authEndpoint}?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scopes.join(
-								'%20'
-							)}&response_type=token&show_dialog=true`}
-						>
-							Login to 
-							<img src={process.env.PUBLIC_URL + 'svg-icons/SpotifyIcon.svg'} alt='' className='spotifyIcon' />
-						</a>
+	return (
+		<div className='App'>
+			{!token && (
+				<UnauthorizedPage />
+			)}
+			{token && (
+				<HomeDataProvider>
+					<div className='SidebarMenu'>
+						<SidebarMenu handlePageChange={handlePageChange} playlists={playlists} handlePlaylist={handlePlaylist} />
 					</div>
-				)}
-				{this.state.token && (
-					<Router>
-						<div className='SidebarMenu'>
-							<SidebarMenu handlePageChange={this.handlePageChange} playlists={this.state.playlists} handlePlaylist={this.handlePlaylist} />
+					<div className='main'>
+						<TopNavbar />
+						<div className='main__content'>
+								<AuthorizedPage />
 						</div>
-						<div className='main'>
-							<TopNavbar />
-							<div className='main__content'>
-								{this.state.page === 'home' && <Home handleFavorite={this.handleFavorite} favorites={this.state.favorites} />}
-								{this.state.page === 'search' && <Search handleFavorite={this.handleFavorite} favorites={this.state.favorites} />}
-								{this.state.page === 'favorites' && <Favorites favorites={this.state.favorites} handleFavorite={this.handleFavorite} />}
-							</div>
-						</div>
-					</Router>
-				)}
-			</div>
-		);
-	}
+					</div>
+				</HomeDataProvider>
+			)}
+		</div>
+	);
 }

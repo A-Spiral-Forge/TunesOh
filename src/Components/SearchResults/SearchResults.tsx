@@ -11,7 +11,7 @@ import { formatTitleToCamelCase } from '../../Utils/format-data';
 import { Album } from '../../@types/albums';
 import { Artist } from '../../@types/artists';
 import { Playlist } from '../../@types/playlists';
-import { Favorite } from '../../@types/tracks';
+import { Track as Favorite } from '../../@types/tracks';
 
 // Define props and state types
 interface IProps {

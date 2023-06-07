@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Nav } from 'react-bootstrap';
 
 // CSS files import
@@ -49,24 +50,30 @@ export default function SideNavbarMenu(props: IProps) {
 			<Nav className='sidenav-menu flex-column'>
 				{
 					['Home', 'Search', 'Favorites', 'Playlists'].map((item, index) => (
-						<Nav.Item
-							className={
-								page === item
-									? 'sidenav-item active'
-									: 'sidenav-item'
-							}
+						<Link
+							to={`/${item.toLowerCase()}`}
 							key={index}
-							onClick={() => {
-								setPage(item);
-								props.handlePageChange(item);
-							}}
+							className='sidenav-link'
 						>
-							<img
-								src={`${process.env.PUBLIC_URL}/svg-icons/${item}Icon.svg`}
-								alt=''
-							/>
-							{item}
-						</Nav.Item>
+							<Nav.Item
+								className={
+									page === item
+										? 'sidenav-item active'
+										: 'sidenav-item'
+								}
+								key={index}
+								onClick={() => {
+									setPage(item);
+									props.handlePageChange(item);
+								}}
+							>
+								<img
+									src={`${process.env.PUBLIC_URL}/svg-icons/${item}Icon.svg`}
+									alt=''
+								/>
+								{item}
+							</Nav.Item>
+						</Link>
 					))
 				}
 			</Nav>

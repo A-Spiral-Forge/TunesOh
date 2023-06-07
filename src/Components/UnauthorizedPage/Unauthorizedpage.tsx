@@ -10,7 +10,7 @@ import React from 'react';
 const authEndpoint = 'https://accounts.spotify.com/authorize';
 const clientId = process.env.REACT_APP_SPOTIFY_CLIENT_ID || 'aad899b6de3a4ee8a3f25828e6e52429';
 const redirectUri = 'http://localhost:3000';
-const scopes = ['user-read-currently-playing'];
+const scopes = ['user-read-currently-playing', 'user-read-playback-state', 'user-top-read', 'user-read-recently-played', 'user-library-read', 'playlist-read-private', 'playlist-read-collaborative'];
 
 const UnauthorizedPage = () => {
     return (

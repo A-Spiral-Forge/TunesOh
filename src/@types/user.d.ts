@@ -1,5 +1,5 @@
 import { Dispatch, SetStateAction } from 'react';
-import { Track, Favorite } from './tracks';
+import { Favorite } from './tracks';
 import { Image } from './images';
 
 export type User = {
@@ -14,7 +14,13 @@ export type User = {
 export interface UserPlaylist {
     id: string,
     name: string,
-    tracks: Track[],
+    tracks: {
+        href: string,
+        total: number,
+    },
+    description: string,
+    images: Image,
+    type: string,
 }
 
 export interface UserDataInterface {

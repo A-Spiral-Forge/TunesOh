@@ -1,22 +1,17 @@
-export interface Tracks {
-    href: string;
-    total: number;
-}
+import { Images } from './images';
 
-export interface Favorite {
-	id: string;
-	name: string;
-	type: string;
-    active?: boolean;
-    spotify_url: string;
-    images: Images[];
+export interface Tracks {
+    href: string,
+    total: number,
 }
 
 export interface Track {
-    id: string;
-    name: string;
-    artists: Artist[];
-    album: string;
-    duration: number;
-    uri: string;
+    id: string,
+	name: string,
+	type: string,
+    url: string,
+    image: Images,
+    artist_names: string[],
+    duration_ms: number,
+    album_name: string,
 }

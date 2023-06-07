@@ -4,6 +4,7 @@ import {Navbar} from "react-bootstrap";
 // Import react components
 import PlaylistMenu from "../PlaylistMenu/PlaylistMenu";
 import SideNavbarMenu from "../SideNavbarMenu/SideNavbarMenu";
+import Logo from "./Logo";
 
 // Import CSS files
 import './SidebarMenu.css'; // SidebarMenu CSS
@@ -30,14 +31,9 @@ export default class SidebarMenu extends Component<IProps> {
 				data-mdb-accordion='true'
 			>
                 <div className='logo'>
-                    <img
-                        src={process.env.PUBLIC_URL + '/main-images/logo.png'}
-                        alt='TunesOh'
-                    />
+                    <Logo />
                 </div>
                 <SideNavbarMenu handlePageChange={this.props.handlePageChange} handlePlaylist={this.props.handlePlaylist} />
-                <hr className="sidenavDivider"/>
-                <PlaylistMenu playlists={this.props.playlists} />
                 <div className="copyright">
                     <p>All design and code copyright reserved</p>
                     <p>&copy; By Abhay Parihar, 2022</p>

@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { User, UserPlaylist, UserDataInterface } from '../@types/user';
-import { Favorite } from '../@types/tracks';
+import { Track } from '../@types/tracks';
 import { Image } from '../@types/images';
 
 // Import types
@@ -18,7 +18,7 @@ const useUserData = () => {
 const UserDataProvider = ({children} : {children: React.ReactNode}) => {
     const [user, setUser] = useState<User>({} as User);
     const [playlists, setPlaylists] = useState([] as UserPlaylist[]);
-    const [favorites, setFavorites] = useState([] as Favorite[]);
+    const [favorites, setFavorites] = useState([] as Track[]);
     const [token, setToken] = useState('');
 
     const getUserData = async (token: string) => {
@@ -49,7 +49,68 @@ const UserDataProvider = ({children} : {children: React.ReactNode}) => {
                 } as Image;
             }),
         });
-        console.log(userJson);
+    };
+
+    const getPlaylists = async (token: string) => {
+        const playlistsResponse = await fetch('https://api.spotify.com/v1/me/playlists', {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+            },
+        });
+
+        if(!playlistsResponse.ok) {
+            localStorage.removeItem('token');
+            window.location.reload();
+            return;
+        }
+
+        const playlistsJson = await playlistsResponse.json();
+        setPlaylists(playlistsJson.items.map((playlist: any) => {
+            return {
+                id: playlist.id,
+                name: playlist.name,
+                description: playlist.description,
+                type: playlist.type,
+                images: playlist.images.length > 0 ? playlist.images[0] : '',
+                tracks: {
+                    href: playlist.tracks.href,
+                    total: playlist.tracks.total,
+                }
+            };
+        }));
+    };
+
+    const getFavorites = async (token: string) => {
+        const favoritesResponse = await fetch('https://api.spotify.com/v1/me/tracks', {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+            },
+        });
+
+        if(!favoritesResponse.ok) {
+            if(favoritesResponse.status === 401) {
+                localStorage.removeItem('token');
+                window.location.reload();
+            }
+            return;
+        }
+
+        const favoritesJson = await favoritesResponse.json();
+        setFavorites(favoritesJson.items.map((favorite: any) => {
+            return {
+                id: favorite.track.id,
+                name: favorite.track.name,
+                type: favorite.track.type,
+                uri: favorite.track.uri,
+                duration_ms: favorite.track.duration_ms,
+                image: favorite.track.album.images.length > 0 ? favorite.track.album.images[0] : '',
+                artist_names: favorite.track.artists.map((artist: any) => {
+                    return artist.name;
+                }),
+                album_name: favorite.track.album.name,
+            };
+        }));
+        console.log(favoritesJson);
     };
 
     useLayoutEffect(() => {
@@ -78,6 +139,8 @@ const UserDataProvider = ({children} : {children: React.ReactNode}) => {
     useEffect(() => {
         if (token) {
             getUserData(token);
+            getPlaylists(token);
+            getFavorites(token);
             localStorage.setItem('token', token);
         }
     }, [token]);

@@ -1,26 +1,32 @@
-import React, { Component } from 'react';
+import React from 'react';
+import { useUserData } from '../../Context/UserDataContext';
 
 // Import css files
 import './PlaylistMenu.css'; // PlaylistMenu CSS
 
-// Import utility functions
-import { UserPlaylist } from '../../@types/user';
 
-// Define type of props
-interface IProps {
-	playlists: UserPlaylist[];
-}
+export default function PlaylistMenu () {
+	const { playlists } = useUserData();
 
-export default class PlaylistMenu extends Component<IProps> {
-	render() {
-		return (
-			<ul className='playlistMenu'>
-				{this.props.playlists.map((playlist, index) => (
-					<li key={index} className='playlistMenu-item'>
-						{playlist.name}
-					</li>
-				))}
-			</ul>
-		);
-	}
+	return (
+		<ul className='playlist-menu'>
+			{playlists.map((playlist, index) => (
+				<li key={index} className='playlist-menu--item'>
+					<div className="playlist-item">
+						<div className="playlist-item--image">
+							<img src={playlist.images.url} alt={playlist.name} />
+						</div>
+						<div className="playlist-details">
+							<div className="playlist-item--name">
+								{playlist.name}
+							</div>
+							<div className="playlist-item--tracks">
+								{playlist.tracks.total} tracks
+							</div>
+						</div>
+					</div>
+				</li>
+			))}
+		</ul>
+	);
 }

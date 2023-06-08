@@ -1,59 +1,49 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Form, InputGroup, Button } from 'react-bootstrap';
+import { useSearchData } from '../../Context/SearchDataContext';
 
 // CSS files import
 import './SearchBar.css'; // Search css
 
-// Define types
-interface IProps {
-    handleSearchInput: (event: any) => void;
-}
+export default function SearchBar(props: any) {
+    const { handleSearchFormSubmit } = useSearchData();
 
-interface IState {
-    searchInput: string;
-}
+    const [searchQuery, setSearchQuery] = React.useState('');
 
-export default class SearchBar extends Component<IProps, IState> {
-    state = {
-        searchInput: '',
-    };
-
-    handleSearchInput = (event: any) => {
+    const handleSearchQuery = (event: any) => {
         event.preventDefault();
-        this.setState({ searchInput: event.target.value });
+        setSearchQuery(event.target.value);
     };
 
-    handleFormSubmit = (event: any) => {
+    const handleSubmit = (event: any) => {
         event.preventDefault();
-        this.props.handleSearchInput(this.state.searchInput);
+        handleSearchFormSubmit(searchQuery);
     };
 
-    render() {
-        return (
-            <div className='search-bar'>
-                <Form onSubmit={this.handleFormSubmit}>
-                    <Form.Group>
-                        <InputGroup className='mb-3'>
-                            <Form.Control
-                                type="text"
-                                placeholder="Search here.."
-                                className='search-bar-input'
-                                onChange={this.handleSearchInput}
+    return (
+        <div className='search-bar'>
+            <Form onSubmit={handleSubmit}>
+                <Form.Group>
+                    <InputGroup className='mb-3'>
+                        <Form.Control
+                            type="text"
+                            placeholder="Search here.."
+                            className='search-bar-input'
+                            onChange={handleSearchQuery}
+                        />
+                        <Button type='submit' className='search-bar-button'>
+                            <img
+                                src={
+                                    process.env.PUBLIC_URL + '/svg-icons/SearchIcon.svg'
+                                }
+                                style={{ width: '20px', height: '20px' }}
+                                alt=''
+                                className='search-icon'
                             />
-                            <Button type='submit' className='search-bar-button'>
-                                <img
-                                    src={
-                                        process.env.PUBLIC_URL + '/svg-icons/SearchIcon.svg'
-                                    }
-                                    style={{ width: '20px', height: '20px' }}
-                                    alt=''
-                                    className='search-icon'
-                                />
-                            </Button>
-                        </InputGroup>
-                    </Form.Group>
-                </Form>
-            </div>
-        );
-    }
+                        </Button>
+                    </InputGroup>
+                </Form.Group>
+            </Form>
+        </div>
+    );
 }

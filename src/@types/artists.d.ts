@@ -7,7 +7,7 @@ export interface Artist {
     uri: string;
     type: string;
     popularity: number;
-    images: Images[];
+    image: Images;
     genres: string[];
     followers: number;
     spotify_url: string;

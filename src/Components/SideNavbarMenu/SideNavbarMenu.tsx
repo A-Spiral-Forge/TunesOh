@@ -12,13 +12,7 @@ import CreatePlaylistModal from '../CreatePlaylistModal/CreatePlaylistModal';
 import { UserPlaylist } from '../../@types/user';
 import { usePageHandler } from '../../Context/PageHandlerContext';
 
-// Define props and state
-interface IProps {
-	handlePageChange: (page: string) => void;
-	handlePlaylist: (playlist: UserPlaylist) => void;
-}
-
-export default function SideNavbarMenu(props: IProps) {
+export default function SideNavbarMenu(props: any) {
 	const {page, setPage} = usePageHandler();
 	const [modalOpen, setModalOpen] = useState<boolean>(false);
 

@@ -11,6 +11,7 @@ import TopNavbar from './Components/TopNavbar/TopNavbar';
 
 // Import utility functions
 import { HomeDataProvider } from './Context/HomeDataContext';
+import { SearchDataProvider } from './Context/SearchDataContext';
 
 export default function App(props: any) {
 	const { token } = useUserData();
@@ -18,24 +19,6 @@ export default function App(props: any) {
 	useEffect(() => {
 		console.log('token changed', token);
 	}, [token]);
-
-	const handlePageChange = (page: string) => {
-		// setPage(page);
-	};
-
-	const handleFavorite = (favorite: any, removeFavorite: boolean = false) => {
-		// const newfavorites = removeFavorite ? favorites.filter((fav) => fav.id !== favorite.id) : [...favorites, favorite];
-		// setFavorites(newfavorites);
-
-		// localStorage.setItem('favorites', JSON.stringify(favorites));
-	}
-
-	const handlePlaylist = (playlist: any, removePlaylist: boolean = false) => {
-		// const newplaylists = removePlaylist ? playlists.filter((ply) => ply.id !== playlist.id) : [...playlists, playlist];
-		// setPlaylists(newplaylists);
-
-		// localStorage.setItem('playlists', JSON.stringify(playlists));
-	}
 
 	return (
 		<Router>
@@ -45,16 +28,17 @@ export default function App(props: any) {
 				)}
 				{token && (
 					<HomeDataProvider>
-						<div className='SidebarMenu'>
-							<SidebarMenu handlePageChange={handlePageChange} playlists={[]}
-							handlePlaylist={handlePlaylist} />
-						</div>
-						<div className='main'>
-							<TopNavbar />
-							<div className='main__content'>
-									<AuthorizedPage />
+						<SearchDataProvider>
+							<div className='SidebarMenu'>
+								<SidebarMenu />
 							</div>
-						</div>
+							<div className='main'>
+								<TopNavbar />
+								<div className='main__content'>
+										<AuthorizedPage />
+								</div>
+							</div>
+						</SearchDataProvider>
 					</HomeDataProvider>
 				)}
 			</div>

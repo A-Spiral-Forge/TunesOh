@@ -3,7 +3,12 @@ import { Playlist } from "./playlist";
 import { Artist } from "./artist";
 
 export interface SearchData {
-    albums: Album[];
-    playlists: Playlist[];
-    artists: Artist[];
+    Albums: Album[];
+    Playlists: Playlist[];
+    Artists: Artist[];
+}
+
+export type SearchContextType = {
+    searchResults: SearchData;
+    handleSearchFormSubmit: (query: string) => void;
 }

@@ -7,7 +7,6 @@ import './SearchResults.css' // SearchResults CSS
 import ItemsList from '../ItemsList/ItemsList';
 
 // Import utility functions
-import { formatTitleToCamelCase } from '../../Utils/format-data';
 import { Album } from '../../@types/albums';
 import { Artist } from '../../@types/artists';
 import { Playlist } from '../../@types/playlists';
@@ -30,21 +29,21 @@ export default class SearchResults extends Component<IProps> {
             <div className='search-results'>
                 <h3>Search Results</h3>
                 <ItemsList
-                    title={formatTitleToCamelCase('albums')}
+                    title={'Albums'}
                     items={this.props.searchResults.albums}
                     renderComponent='strip'
                     handleFavorite={this.props.handleFavorites}
                     favorites={this.props.favorites}
                 />
                 <ItemsList
-                    title={formatTitleToCamelCase('artists')}
+                    title={'Artists'}
                     items={this.props.searchResults.artists}
                     renderComponent='strip'
                     handleFavorite={this.props.handleFavorites}
                     favorites={this.props.favorites}
                 />
                 <ItemsList
-                    title={formatTitleToCamelCase('playlists')}
+                    title={'Playlists'}
                     items={this.props.searchResults.playlists}
                     renderComponent='strip'
                     handleFavorite={this.props.handleFavorites}

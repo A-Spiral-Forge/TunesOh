@@ -1,11 +1,10 @@
-import { Artist } from './artists';
 import { Images } from './images';
 
 export interface Album {
     id: string;
     name: string;
-    artists: Artist[];
-    images: Images[];
+    artists: string[];
+    image: Images;
     release_date: string;
     total_tracks: number;
     type: string;

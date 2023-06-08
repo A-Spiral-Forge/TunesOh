@@ -110,7 +110,6 @@ const UserDataProvider = ({children} : {children: React.ReactNode}) => {
                 album_name: favorite.track.album.name,
             };
         }));
-        console.log(favoritesJson);
     };
 
     useLayoutEffect(() => {

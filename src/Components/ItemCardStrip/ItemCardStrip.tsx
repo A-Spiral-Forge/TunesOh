@@ -26,7 +26,7 @@ export default function ItemCardStrip(props: any) {
 						{props.type}
 					</div>
 				</div>
-				<div
+				{/* <div
 					className={
 						'item-card-strip__favorite' +
 						(props.isFavorite ? ' active' : '')
@@ -38,7 +38,7 @@ export default function ItemCardStrip(props: any) {
 							alt='<3'
 						/>
 					</button>
-				</div>
+				</div> */}
 			</div>
 		</a>
 	);

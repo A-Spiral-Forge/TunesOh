@@ -9,5 +9,7 @@ export interface IHome {
 }
 
 export type HomeDataContextType = {
-    home: IHome,
+    'New Releases': Album[],
+    'Featured Playlists': Playlist[],
+    'Categories': Category[],
 };

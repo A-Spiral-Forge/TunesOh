@@ -16,7 +16,7 @@
 	padding: 0.5rem;
 	border-radius: 5px;
 	background-color: var(--secondary-color);
-	opacity: 0.5;
+	opacity: 0.75;
 	transition: opacity 0.5s ease-in-out;
 	width: var(--item-card-square-width);
 	position: relative;

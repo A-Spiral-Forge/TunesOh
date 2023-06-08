@@ -14,7 +14,7 @@ export default function ItemCardSquare(props: any) {
 			<div className='item-card-square'>
 				<div className='item-card-square__image'>
 					<img src={props.image_url} alt='' />
-					<div
+					{/* <div
 						className={
 							'item-card-square__favorite' +
 							(props.isFavorite ? ' active' : '')
@@ -29,7 +29,7 @@ export default function ItemCardSquare(props: any) {
 								alt='<3'
 							/>
 						</button>
-					</div>
+					</div> */}
 				</div>
 				<div className='item-card-square__title'>
 					{props.name}

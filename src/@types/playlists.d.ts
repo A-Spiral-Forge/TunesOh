@@ -6,7 +6,7 @@ export interface Playlist {
     id: string;
     name: string;
     description: string;
-    images: Images[];
+    images: Images;
     owner: User;
     tracks: Tracks;
     uri: string;

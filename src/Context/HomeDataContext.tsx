@@ -2,12 +2,12 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { useUserData } from './UserDataContext';
 
 // Import types
-import { IHome, HomeDataContextType } from '../@types/home';
+import { HomeDataContextType } from '../@types/home';
 import { Album } from '../@types/albums';
 import { Playlist } from '../@types/playlists';
 import { Category } from '../@types/categories';
 
-const HomeDataContext = createContext<Partial<HomeDataContextType>>({});
+const HomeDataContext = createContext<HomeDataContextType>({} as HomeDataContextType);
 
 const useHomeData = () => {
     const context = useContext(HomeDataContext);
@@ -27,7 +27,6 @@ const HomeDataProvider = ({ children } : {children: React.ReactNode}) => {
     /**
      * Get new releases from Spotify API
      * @param token Spotify token
-     * @returns Array of new releases
      */
     const getNewReleases = async (token:string) => {
         const request = new Request('https://api.spotify.com/v1/browse/new-releases', {
@@ -48,29 +47,25 @@ const HomeDataProvider = ({ children } : {children: React.ReactNode}) => {
             window.location.reload();
         }
 
-        const newReleases: Album[] = data.albums.items.map((album: any) => {
+        setNewRelelases(data.albums.items.map((album: any) => {
             return {
                 id: album.id,
                 name: album.name,
                 artists: album.artists,
-                images: album.images,
+                image: album.images[0],
                 release_date: album.release_date,
                 total_tracks: album.total_tracks,
-                type: album.type,
                 uri: album.uri,
-                album_type: album.album_type,
                 href: album.href,
+                type: album.type,
                 spotify_url: album.external_urls.spotify
             }
-        });
-
-        return newReleases;
+        }));
     }
 
     /**
      * Get featured playlists from Spotify API
      * @param token Spotify token
-     * @returns Array of featured playlists
      */
     const getFeaturedPlaylists = async (token:string) => {
         const request = new Request('https://api.spotify.com/v1/browse/featured-playlists', {
@@ -91,30 +86,25 @@ const HomeDataProvider = ({ children } : {children: React.ReactNode}) => {
             window.location.reload();
         }
 
-        const featuredPlaylists: Playlist[] = data.playlists.items.map((playlist: any) => {
+        setFeaturedPlalists(data.playlists.items.map((playlist: any) => {
             return {
                 id: playlist.id,
                 name: playlist.name,
                 description: playlist.description,
-                images: playlist.images,
+                image: playlist.images[0],
                 owner: playlist.owner,
                 tracks: playlist.tracks,
                 uri: playlist.uri,
-                collaborative: playlist.collaborative,
-                public: playlist.public,
                 href: playlist.href,
                 type: playlist.type,
-                spotify_url: playlist.external_urls.spotify 
+                spotify_url: playlist.external_urls.spotify
             }
-        });
-
-        return featuredPlaylists;
+        }));
     }
 
     /**
      * Get categories from Spotify API
      * @param token Spotify token
-     * @returns Array of categories
      */
     const getCategories = async (token:string) => {
         const request = new Request('https://api.spotify.com/v1/browse/categories', {
@@ -135,41 +125,35 @@ const HomeDataProvider = ({ children } : {children: React.ReactNode}) => {
             window.location.reload();
         }
 
-        const categories: Category[] = data.categories.items.map((category: any) => {
+        setCategories(data.categories.items.map((category: any) => {
             return {
                 id: category.id,
                 name: category.name,
+                image: category.icons[0],
+                uri: category.uri,
                 href: category.href,
-                images: category.icons,
-                spotify_url: `https://open.spotify.com/browse/categories/${category.id}/playlists`,
-                type: 'category',
+                type: category.type,
             }
-        });
-
-        return categories;
+        }));
     }
 
     useEffect(() => {
-        getNewReleases(token).then((newReleases) => {
-            setNewRelelases(newReleases);
-        });
-        getFeaturedPlaylists(token).then((featuredPlaylists) => {
-            setFeaturedPlalists(featuredPlaylists);
-        });
-        getCategories(token).then((categories) => {
-            setCategories(categories);
-        });
+        if(token) {
+            getNewReleases(token);
+            getFeaturedPlaylists(token);
+            getCategories(token);
+        }
     }
     , [token]);
 
-    const homeData: IHome = {
-        newReleases,
-        featuredPlaylists,
-        categories
+    const homeData: HomeDataContextType = {
+        'New Releases': newReleases,
+        'Featured Playlists': featuredPlaylists,
+        'Categories': categories
     };
     
     return (
-        <HomeDataContext.Provider value={{home: homeData}}>
+        <HomeDataContext.Provider value={homeData}>
             {children}
         </HomeDataContext.Provider>
     );

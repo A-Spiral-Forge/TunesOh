@@ -23,7 +23,7 @@ const SearchDataProvider = ({ children }: { children: React.ReactNode }) => {
     const [searchResults, setSearchResults] = React.useState<SearchData>({} as SearchData);
 
     const getSearchResults = async (token: string, query: string) => {
-        const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=album,playlist,artist`, {
+        const response = await fetch(`https://api.spotify.com/v1/search?q=${query}&type=track,album,playlist,artist`, {
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -39,9 +39,21 @@ const SearchDataProvider = ({ children }: { children: React.ReactNode }) => {
             return;
         }
 
-        const {albums, playlists, artists} = data;
+        const {tracks, albums, playlists, artists} = data;
         
         setSearchResults({
+            Tracks: tracks.items.map((track: any) => ({
+                id: track.id,
+                name: track.name,
+                type: track.type,
+                uri: track.uri,
+                duration_ms: track.duration_ms,
+                image: track.album.images.length > 0 ? track.album.images[0] : '',
+                artist_names: track.artists.map((artist: any) => {
+                    return artist.name;
+                }),
+                album_name: track.album.name,
+            })),
             Albums: albums.items.map((album: any) => ({
                 id: album.id,
                 name: album.name,

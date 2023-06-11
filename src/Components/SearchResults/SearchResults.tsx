@@ -20,7 +20,7 @@ export default function SearchResults(props: any) {
                             key={index}
                             title={entry[0]}
                             items={entry[1]}
-                            type={entry[0]}
+                            details={entry[0]}
                         />
                     );
                 })

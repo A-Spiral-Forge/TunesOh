@@ -11,9 +11,9 @@ export default function ItemCardSquare(props: any) {
 			target='_blank'
 			rel='noreferrer noopener'
 		>
-			<div className='item-card-square'>
+			<div className='item-card-square' title={props.name + '\n' + props.details}>
 				<div className='item-card-square__image'>
-					<img src={props.image_url} alt='' />
+					<img src={props.image_url} alt='' loading='lazy'/>
 					{/* <div
 						className={
 							'item-card-square__favorite' +
@@ -34,11 +34,8 @@ export default function ItemCardSquare(props: any) {
 				<div className='item-card-square__title'>
 					{props.name}
 				</div>
-				<div
-					className='item-card-square__artist'
-					title={props.type}
-				>
-					{props.type}
+				<div className='item-card-square__artist'>
+					{props.details}
 				</div>
 			</div>
 		</a>

@@ -50,6 +50,8 @@ const SearchDataProvider = ({ children }: { children: React.ReactNode }) => {
                 },
                 type: album.type,
                 uri: album.uri,
+                total_tracks: album.total_tracks,
+                release_date: album.release_date,
             })),
             Playlists: playlists.items.map((playlist: any) => ({
                 id: playlist.id,
@@ -59,6 +61,8 @@ const SearchDataProvider = ({ children }: { children: React.ReactNode }) => {
                 },
                 type: playlist.type,
                 uri: playlist.uri,
+                tracks: playlist.tracks,
+                owner: playlist.owner,
             })),
             Artists: artists.items.map((artist: any) => ({
                 id: artist.id,

@@ -11,19 +11,16 @@ export default function ItemCardStrip(props: any) {
 			target='_blank'
 			rel='noreferrer noopener'
 		>
-			<div className='item-card-strip'>
+			<div className='item-card-strip' title={props.name + '\n' + props.details}>
 				<div className='item-card-strip__image'>
-					<img src={props.image_url} alt='' />
+					<img src={props.image_url} alt='' loading='lazy' />
 				</div>
-				<div
-					className='item-card-strip__text'
-					title={props.name}
-				>
+				<div className='item-card-strip__text' >
 					<div className='item-card-strip__title'>
 						{props.name}
 					</div>
 					<div className='item-card-strip__artist'>
-						{props.type}
+						{props.details}
 					</div>
 				</div>
 				{/* <div

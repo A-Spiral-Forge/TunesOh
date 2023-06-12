@@ -9,12 +9,12 @@ import ItemsList from '../ItemsList/ItemsList';
 
 export default function Home() {
 	const homeData = useHomeData();
-	const data = [homeData['New Releases'], homeData['Featured Playlists'], homeData['Categories']];
+	const data = [homeData['New Releases'], homeData['Featured Playlists']];
 
 	return (
 		<div className='home'>
 			{
-				['New Releases', 'Featured Playlists', 'Categories'].map((title, index) => {
+				['New Releases', 'Featured Playlists'].map((title, index) => {
 					return (
 						<ItemsList
 							key={index}

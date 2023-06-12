@@ -53,6 +53,7 @@ const SearchDataProvider = ({ children }: { children?: React.ReactNode }) => {
                     return artist.name;
                 }),
                 album_name: track.album.name,
+                url: `/track/${track.id}`,
             })),
             Albums: albums.items.map((album: any) => ({
                 id: album.id,
@@ -64,6 +65,10 @@ const SearchDataProvider = ({ children }: { children?: React.ReactNode }) => {
                 uri: album.uri,
                 total_tracks: album.total_tracks,
                 release_date: album.release_date,
+                artist_names: album.artists.map((artist: any) => {
+                    return artist.name;
+                }),
+                url: `/album/${album.id}`,
             })),
             Playlists: playlists.items.map((playlist: any) => ({
                 id: playlist.id,
@@ -75,6 +80,7 @@ const SearchDataProvider = ({ children }: { children?: React.ReactNode }) => {
                 uri: playlist.uri,
                 tracks: playlist.tracks,
                 owner: playlist.owner,
+                url: `/playlist/${playlist.id}`,
             })),
             Artists: artists.items.map((artist: any) => ({
                 id: artist.id,
@@ -86,6 +92,7 @@ const SearchDataProvider = ({ children }: { children?: React.ReactNode }) => {
                 uri: artist.uri,
                 genres: artist.genres,
                 followers: artist.followers,
+                url: `/artist/${artist.id}`,
             })),
         });
     }

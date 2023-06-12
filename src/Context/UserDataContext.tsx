@@ -75,7 +75,8 @@ const UserDataProvider = ({children} : {children: React.ReactNode}) => {
                 tracks: {
                     href: playlist.tracks.href,
                     total: playlist.tracks.total,
-                }
+                },
+                url: `/playlist/${playlist.id}`,
             };
         }));
     };
@@ -108,6 +109,7 @@ const UserDataProvider = ({children} : {children: React.ReactNode}) => {
                     return artist.name;
                 }),
                 album_name: favorite.track.album.name,
+                url: `/track/${favorite.track.id}`
             };
         }));
     };

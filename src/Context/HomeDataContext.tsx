@@ -22,7 +22,6 @@ const HomeDataProvider = ({ children } : {children?: React.ReactNode}) => {
 
     const [newReleases, setNewRelelases] = useState([] as Album[]);
     const [featuredPlaylists, setFeaturedPlalists] = useState([] as Playlist[]);
-    const [categories, setCategories] = useState([] as Category[]);
 
     /**
      * Get new releases from Spotify API
@@ -98,42 +97,8 @@ const HomeDataProvider = ({ children } : {children?: React.ReactNode}) => {
                 uri: playlist.uri,
                 href: playlist.href,
                 type: playlist.type,
-                spotify_url: playlist.external_urls.spotify
-            }
-        }));
-    }
-
-    /**
-     * Get categories from Spotify API
-     * @param token Spotify token
-     */
-    const getCategories = async (token:string) => {
-        const request = new Request('https://api.spotify.com/v1/browse/categories', {
-            method: 'GET',
-            headers: new Headers({
-                'Authorization': 'Bearer ' + token,
-                'Content-Type': 'application/json'
-            })
-        });
-
-        const response = await fetch(request);
-        const data = await response.json();
-
-        if(!response.ok) {
-            if(data.error.status === 401) {
-                localStorage.removeItem('token');
-            }
-            window.location.reload();
-        }
-
-        setCategories(data.categories.items.map((category: any) => {
-            return {
-                id: category.id,
-                name: category.name,
-                image: category.icons[0],
-                uri: category.uri,
-                href: category.href,
-                type: category.type,
+                spotify_url: playlist.external_urls.spotify,
+                url: '/playlist/' + playlist.id,
             }
         }));
     }
@@ -142,7 +107,6 @@ const HomeDataProvider = ({ children } : {children?: React.ReactNode}) => {
         if(token) {
             getNewReleases(token);
             getFeaturedPlaylists(token);
-            getCategories(token);
         }
     }
     , [token]);
@@ -150,7 +114,6 @@ const HomeDataProvider = ({ children } : {children?: React.ReactNode}) => {
     const homeData: HomeDataContextType = {
         'New Releases': newReleases,
         'Featured Playlists': featuredPlaylists,
-        'Categories': categories
     };
     
     return (

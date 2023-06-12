@@ -71,7 +71,7 @@ const UserDataProvider = ({children} : {children: React.ReactNode}) => {
                 name: playlist.name,
                 description: playlist.description,
                 type: playlist.type,
-                images: playlist.images.length > 0 ? playlist.images[0] : '',
+                image: playlist.images.length > 0 ? playlist.images[0] : '',
                 tracks: {
                     href: playlist.tracks.href,
                     total: playlist.tracks.total,

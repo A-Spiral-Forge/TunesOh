@@ -5,7 +5,6 @@ import { useUserData } from './UserDataContext';
 import { HomeDataContextType } from '../@types/home';
 import { Album } from '../@types/albums';
 import { Playlist } from '../@types/playlists';
-import { Category } from '../@types/categories';
 
 const HomeDataContext = createContext<HomeDataContextType>({} as HomeDataContextType);
 

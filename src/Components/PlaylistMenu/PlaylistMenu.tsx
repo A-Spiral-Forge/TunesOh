@@ -3,6 +3,7 @@ import { useUserData } from '../../Context/UserDataContext';
 
 // Import css files
 import './PlaylistMenu.css'; // PlaylistMenu CSS
+import ItemsList from '../ItemsList/ItemsList';
 
 
 export default function PlaylistMenu () {
@@ -10,23 +11,11 @@ export default function PlaylistMenu () {
 
 	return (
 		<ul className='playlist-menu'>
-			{playlists.map((playlist, index) => (
-				<li key={index} className='playlist-menu--item'>
-					<div className="playlist-item">
-						<div className="playlist-item--image">
-							<img src={playlist.images.url} alt={playlist.name} />
-						</div>
-						<div className="playlist-details">
-							<div className="playlist-item--name">
-								{playlist.name}
-							</div>
-							<div className="playlist-item--tracks">
-								{playlist.tracks.total} tracks
-							</div>
-						</div>
-					</div>
-				</li>
-			))}
+			<ItemsList 
+				items={playlists}
+				title='Your Playlists'
+				renderComponent='strip'
+			/>
 		</ul>
 	);
 }

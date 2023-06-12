@@ -17,7 +17,7 @@ const useSearchData = () => {
 };
 
 // Create a provider for components to consume and subscribe to changes
-const SearchDataProvider = ({ children }: { children: React.ReactNode }) => {
+const SearchDataProvider = ({ children }: { children?: React.ReactNode }) => {
 	const { token } = useUserData();
 
     const [searchResults, setSearchResults] = React.useState<SearchData>({} as SearchData);
@@ -84,6 +84,8 @@ const SearchDataProvider = ({ children }: { children: React.ReactNode }) => {
                 },
                 type: artist.type,
                 uri: artist.uri,
+                genres: artist.genres,
+                followers: artist.followers,
             })),
         });
     }

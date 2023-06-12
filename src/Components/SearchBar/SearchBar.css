@@ -25,11 +25,12 @@
     color: var(--white-color);
 }
 
-.search-bar-button, .search-bar-button:hover, .search-bar-button:active, .search-bar-button:focus {
+.search-bar-button, .search-bar-button:hover, .search-bar-button:active, .search-bar-button:focus, .search-bar-button:focus-visible {
     background-color: inherit;
     border: 1px solid var(--white-color);
     border-left: none;
     color: var(--white-color);
+    box-shadow: none;
 }
 
 .search-icon {

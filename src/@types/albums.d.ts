@@ -1,4 +1,5 @@
 import { Images } from './images';
+import { Track } from './tracks';
 
 export interface Album {
     id: string;
@@ -12,4 +13,10 @@ export interface Album {
     album_type: 'album' | 'single' | 'compilation';
     href: string;
     spotify_url: string;
+    tracks?: Track[];
 }
+
+export type AlbumContextType = {
+    albumData: Album;
+    getAlbumData: (id: string) => void;
+};

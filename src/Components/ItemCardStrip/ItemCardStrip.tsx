@@ -8,8 +8,6 @@ export default function ItemCardStrip(props: any) {
 		<a
 			href={props.url}
 			className='item-url-strip'
-			target='_blank'
-			rel='noreferrer noopener'
 		>
 			<div className='item-card-strip' title={props.name + '\n' + props.details}>
 				<div className='item-card-strip__image'>

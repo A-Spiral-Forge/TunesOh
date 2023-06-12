@@ -7,7 +7,7 @@ import './SideNavbarMenu.css'; // SidebarMenu CSS
 
 export default function SideNavbarMenu(props: any) {
 	const location = useLocation();
-	const page = location.pathname.slice(1);
+	const page = location.pathname.slice(1).length > 0 ? location.pathname.slice(1) : 'home';
 
 	return (
 		<Nav className='sidenav-menu flex-column'>

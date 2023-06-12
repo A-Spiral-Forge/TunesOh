@@ -17,7 +17,7 @@ const useHomeData = () => {
     return context;
 };
 
-const HomeDataProvider = ({ children } : {children: React.ReactNode}) => {
+const HomeDataProvider = ({ children } : {children?: React.ReactNode}) => {
     const { token } = useUserData();
 
     const [newReleases, setNewRelelases] = useState([] as Album[]);
@@ -58,7 +58,8 @@ const HomeDataProvider = ({ children } : {children: React.ReactNode}) => {
                 uri: album.uri,
                 href: album.href,
                 type: album.type,
-                spotify_url: album.external_urls.spotify
+                spotify_url: album.external_urls.spotify,
+                url: '/album/' + album.id,
             }
         }));
     }

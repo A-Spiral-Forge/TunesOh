@@ -8,8 +8,6 @@ export default function ItemCardSquare(props: any) {
 		<a
 			href={props.url}
 			className='item-url-square'
-			target='_blank'
-			rel='noreferrer noopener'
 		>
 			<div className='item-card-square' title={props.name + '\n' + props.details}>
 				<div className='item-card-square__image'>

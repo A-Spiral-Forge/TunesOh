@@ -21,7 +21,7 @@
     border-radius: 5px;
 }
 
-.btn-primary, .btn-primary:focus, .btn-primary:active, .btn-primary:visited, .btn-primary.dropdown-toggle:active, .btn-primary:focus-visible {
+.user-dropdown, .user-dropdown:focus, .user-dropdown:active, .user-dropdown:visited, .user-dropdown.dropdown-toggle:active, .user-dropdown:focus-visible {
     color: var(--white-color);
     background-color: inherit;
     border: 1px solid var(--secondary-color);
@@ -29,7 +29,7 @@
     box-shadow: none;
 }
 
-.btn-primary:hover, .show > .btn-primary.dropdown-toggle, .show > .btn-primary.dropdown-toggle:focus {
+.user-dropdown:hover, .show > .user-dropdown.dropdown-toggle, .show > .user-dropdown.dropdown-toggle:focus {
     background-color: var(--secondary-color);
     border: 1px solid var(--secondary-color);
     outline: none;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useUserData } from './Context/UserDataContext';
 import './App.css';
@@ -10,15 +10,13 @@ import SidebarMenu from './Components/SidebarMenu/SidebarMenu';
 import TopNavbar from './Components/TopNavbar/TopNavbar';
 
 // Import utility functions
+import Compose from './Context/Compose';
 import { HomeDataProvider } from './Context/HomeDataContext';
 import { SearchDataProvider } from './Context/SearchDataContext';
+import { AlbumDataProvider } from './Context/AlbumDataContext';
 
 export default function App(props: any) {
 	const { token } = useUserData();
-
-	useEffect(() => {
-		console.log('token changed', token);
-	}, [token]);
 
 	return (
 		<Router>
@@ -27,19 +25,17 @@ export default function App(props: any) {
 					<UnauthorizedPage />
 				)}
 				{token && (
-					<HomeDataProvider>
-						<SearchDataProvider>
-							<div className='SidebarMenu'>
+					<Compose components={[HomeDataProvider, SearchDataProvider, AlbumDataProvider]}>
+						<div className='SidebarMenu'>
 								<SidebarMenu />
+						</div>
+						<div className='main'>
+							<TopNavbar />
+							<div className='main__content'>
+									<AuthorizedPage />
 							</div>
-							<div className='main'>
-								<TopNavbar />
-								<div className='main__content'>
-										<AuthorizedPage />
-								</div>
-							</div>
-						</SearchDataProvider>
-					</HomeDataProvider>
+						</div>
+					</Compose>
 				)}
 			</div>
 		</Router>

@@ -77,6 +77,7 @@ const UserDataProvider = ({children} : {children: React.ReactNode}) => {
                     total: playlist.tracks.total,
                 },
                 url: `/playlist/${playlist.id}`,
+                owner: playlist.owner,
             };
         }));
     };

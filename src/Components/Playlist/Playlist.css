@@ -1,0 +1,49 @@
+.playlist {
+    padding: 1.5rem;
+}
+
+.playlist__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    max-height: 200px;
+}
+
+.playlist__header__image {
+    max-width: 200px;
+    height: 100%;
+    display: flex;
+}
+
+.playlist__header__image img {
+    width: 80%;
+    height: 80%;
+}
+
+.playlist__header__type {
+    font-size: 1.5rem;
+    opacity: 0.75;
+}
+
+.playlist__header__info__artists {
+    font-size: 1.25rem;
+}
+
+.playlist__tracks {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 1.5rem;
+}
+
+.playlist__tracks__header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.5rem;
+}
+
+.playlist__tracks__list {
+    width: 100%;
+}

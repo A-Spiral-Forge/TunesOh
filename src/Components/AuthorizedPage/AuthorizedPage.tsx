@@ -7,6 +7,7 @@ import Search from '../Search/Search';
 import Favorites from '../Favorites/Favorites';
 import PlaylistMenu from '../PlaylistMenu/PlaylistMenu';
 import Album from '../Album/Album';
+import Playlist from '../Playlist/Playlist';
 
 const AuthorizedPage = () => {
     return (
@@ -15,6 +16,7 @@ const AuthorizedPage = () => {
             <Route path='/favorites' element={<Favorites />} />
             <Route path='/playlists' element={<PlaylistMenu />} />
             <Route path='/album/:id' element={<Album />} />
+            <Route path='/playlist/:id' element={<Playlist />} />
             <Route path='*' element={<Home />} />
         </Routes>
     );

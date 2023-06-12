@@ -15,4 +15,10 @@ export interface Playlist {
     href: string;
     type: string;
     spotify_url: string;
+    total_tracks: number;
+}
+
+export type PlaylistContextType = {
+    playlistData: Playlist,
+    getPlaylistData: (playlistId: string) => void,
 }

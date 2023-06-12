@@ -14,6 +14,7 @@ import Compose from './Context/Compose';
 import { HomeDataProvider } from './Context/HomeDataContext';
 import { SearchDataProvider } from './Context/SearchDataContext';
 import { AlbumDataProvider } from './Context/AlbumDataContext';
+import { PlaylistDataProvider } from './Context/PlaylistDataContext';
 
 export default function App(props: any) {
 	const { token } = useUserData();
@@ -25,7 +26,7 @@ export default function App(props: any) {
 					<UnauthorizedPage />
 				)}
 				{token && (
-					<Compose components={[HomeDataProvider, SearchDataProvider, AlbumDataProvider]}>
+					<Compose components={[HomeDataProvider, SearchDataProvider, AlbumDataProvider, PlaylistDataProvider]}>
 						<div className='SidebarMenu'>
 								<SidebarMenu />
 						</div>

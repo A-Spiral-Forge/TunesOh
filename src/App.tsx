@@ -15,6 +15,7 @@ import { HomeDataProvider } from './Context/HomeDataContext';
 import { SearchDataProvider } from './Context/SearchDataContext';
 import { AlbumDataProvider } from './Context/AlbumDataContext';
 import { PlaylistDataProvider } from './Context/PlaylistDataContext';
+import Player from './Components/Player/Player';
 
 export default function App(props: any) {
 	const { token } = useUserData();
@@ -33,7 +34,8 @@ export default function App(props: any) {
 						<div className='main'>
 							<TopNavbar />
 							<div className='main__content'>
-									<AuthorizedPage />
+								<AuthorizedPage />
+								<Player />
 							</div>
 						</div>
 					</Compose>
